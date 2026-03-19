@@ -5,25 +5,21 @@ Text_id = "6"
 KEY = 6
 
 def decrypt(encrypted_message: str, key: int) -> str:
-    """Decrypts a message by subtracting the key from each character."""
+    """Decrypt a message by subtracting the key from each character (wraps printable ASCII)."""
     message = ""
     for char in encrypted_message:
-        # Use 32–126 printable ASCII range
-        decrypted_char = (ord(char) - key)
+        decrypted_char = ord(char) - key
         if decrypted_char < 32:  # wrap around printable ASCII
             decrypted_char += 95  # 126 - 32 + 1
         message += chr(decrypted_char)
     return message
 
-# Get the directory where this script is located
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Paths relative to the script
-input_file = os.path.join(script_dir, "..", "encrypted_data", f"{Text_id}.txt")
-output_dir = os.path.join(script_dir, "..", "workshop_data")
+# Paths relative to the repo root (current working directory)
+input_file = os.path.join("encrypted_data", f"{Text_id}.txt")
+output_dir = "workshop_data"
 output_file = os.path.join(output_dir, f"{Text_id}.txt")
 
-# Make sure output directory exists
+# Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)
 
 # Check if input exists
