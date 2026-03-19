@@ -1,6 +1,6 @@
 import os
 
-Text_id= "6"
+Text_id = "6"
 KEY = 6
 
 def decrypt(encrypted_message, key):
@@ -9,8 +9,12 @@ def decrypt(encrypted_message, key):
         message += chr((ord(char) - key) % 126)
     return message
 
-input_file = os.path.join("..", "encrypted_data", f"{Text_id}.txt")
-output_file = os.path.join("..", "workshop_data", f"{Text_id}.txt")
+# Get the directory where this script (6.py) is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct paths relative to the script
+input_file = os.path.join(script_dir, "..", "encrypted_data", f"{Text_id}.txt")
+output_file = os.path.join(script_dir, "..", "workshop_data", f"{Text_id}.txt")
 
 if os.path.exists(input_file):
     with open(input_file, 'r') as f:
@@ -18,10 +22,10 @@ if os.path.exists(input_file):
 
     decrypted_text = decrypt(encrypted_text, KEY)
 
-    os.makedirs("workshop_data", exist_ok=True)
+    os.makedirs(os.path.join(script_dir, "..", "workshop_data"), exist_ok=True)
     with open(output_file, 'w') as f:
         f.write(decrypted_text)
     
     print(f"Success! Decrypted chunk {Text_id} and saved to {output_file}")
 else:
-    print(f"Error: {input_file} not found.") 
+    print(f"Error: {input_file} not found.")
